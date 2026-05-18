@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para mi Angy 💜</title>
+<link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --purple-deep: #1a0a2e;
+    --purple-mid: #3d1a6e;
+    --purple-light: #7b3fa0;
+    --purple-soft: #c084fc;
+    --gold: #f0d080;
+    --lavender: #e0c8ff;
+    --white-soft: rgba(255,255,255,0.92);
+    --petal-1: #f9a8d4;
+    --petal-2: #e879f9;
+    --petal-3: #c084fc;
+    --petal-4: #fde68a;
+    --petal-5: #fbcfe8;
+  }
+
+  html, body {
+    min-height: 100%;
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  body {
+    background: radial-gradient(ellipse at 20% 20%, #3b0f6e 0%, #1a0a2e 35%, #0d0520 60%, #160830 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* ── Estrellas de fondo ── */
+  .stars {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .star {
+    position: absolute;
+    border-radius: 50%;
+    background: white;
+    animation: twinkle var(--d) ease-in-out infinite alternate;
+  }
+  @keyframes twinkle {
+    from { opacity: var(--min); transform: scale(1); }
+    to   { opacity: var(--max); transform: scale(1.4); }
+  }
+
+  /* ── Pétalos flotantes ── */
+  .petals-container {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+  }
+  .petal {
+    position: absolute;
+    top: -60px;
+    border-radius: 60% 40% 70% 30% / 50% 60% 40% 50%;
+    animation: fall var(--fall-d) linear infinite;
+    opacity: 0.7;
+  }
+  @keyframes fall {
+    0%   { transform: translateY(-60px) translateX(0) rotate(0deg); opacity: 0; }
+    10%  { opacity: 0.7; }
+    90%  { opacity: 0.5; }
+    100% { transform: translateY(110vh) translateX(var(--drift)) rotate(var(--spin)); opacity: 0; }
+  }
+
+  /* ── Flores decorativas ── */
+  .flowers-top, .flowers-bottom {
+    position: fixed;
+    left: 0; right: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .flowers-top { top: 0; }
+  .flowers-bottom { bottom: 0; transform: scaleY(-1); }
+
+  .flower {
+    position: absolute;
+    animation: sway 4s ease-in-out infinite alternate;
+    transform-origin: bottom center;
+  }
+  @keyframes sway {
+    from { transform: rotate(-5deg); }
+    to   { transform: rotate(5deg); }
+  }
+
+  /* ── Sobre / wrapper ── */
+  .scene {
+    position: relative;
+    z-index: 10;
+    max-width: 680px;
+    width: 100%;
+    animation: fadeInUp 1.6s cubic-bezier(.22,1,.36,1) both;
+  }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(60px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Papel de carta ── */
+  .carta {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 4px 4px 4px 4px;
+    padding: 60px 56px 64px;
+    position: relative;
+    box-shadow:
+      0 0 60px rgba(192,132,252,0.15),
+      0 30px 80px rgba(0,0,0,0.5),
+      inset 0 1px 0 rgba(255,255,255,0.2);
+    overflow: hidden;
+  }
+
+  /* brillo interno suave */
+  .carta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 0%, rgba(240,208,128,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 100%, rgba(192,132,252,0.1) 0%, transparent 55%);
+    pointer-events: none;
+  }
+
+  /* líneas de papel sutiles */
+  .carta::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      transparent, transparent 39px,
+      rgba(192,132,252,0.07) 39px, rgba(192,132,252,0.07) 40px
+    );
+    pointer-events: none;
+  }
+
+  /* ── Encabezado ── */
+  .header {
+    text-align: center;
+    margin-bottom: 36px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .decoracion-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .linea-gold {
+    height: 1px;
+    width: 80px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .corazon-central {
+    font-size: 22px;
+    animation: latido 1.5s ease-in-out infinite;
+    filter: drop-shadow(0 0 8px rgba(249,168,212,0.8));
+  }
+  @keyframes latido {
+    0%,100% { transform: scale(1); }
+    50%      { transform: scale(1.25); }
+  }
+
+  .titulo {
+    font-family: 'Pinyon Script', cursive;
+    font-size: clamp(2.8rem, 7vw, 4.2rem);
+    color: var(--gold);
+    letter-spacing: 2px;
+    line-height: 1.1;
+    text-shadow: 0 0 30px rgba(240,208,128,0.4);
+    animation: glowText 3s ease-in-out infinite alternate;
+  }
+  @keyframes glowText {
+    from { text-shadow: 0 0 20px rgba(240,208,128,0.3); }
+    to   { text-shadow: 0 0 40px rgba(240,208,128,0.7), 0 0 80px rgba(240,208,128,0.2); }
+  }
+
+  .subtitulo {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--lavender);
+    letter-spacing: 3px;
+    margin-top: 6px;
+    opacity: 0.85;
+  }
+
+  /* ── Cuerpo ── */
+  .cuerpo {
+    position: relative;
+    z-index: 2;
+    color: rgba(255,255,255,0.93);
+    font-size: 1.08rem;
+    line-height: 1.95;
+    font-weight: 300;
+  }
+
+  .saludo {
+    font-family: 'Pinyon Script', cursive;
+    font-size: 2rem;
+    color: var(--petal-1);
+    display: block;
+    margin-bottom: 18px;
+    text-shadow: 0 0 20px rgba(249,168,212,0.5);
+  }
+
+  .parrafo {
+    margin-bottom: 22px;
+    text-align: justify;
+    text-justify: inter-word;
+  }
+
+  .parrafo em {
+    font-style: italic;
+    color: var(--lavender);
+  }
+
+  .parrafo strong {
+    font-weight: 400;
+    color: var(--gold);
+  }
+
+  /* ── Flores SVG inline ── */
+  .flores-inline {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    margin: 28px 0;
+    flex-wrap: wrap;
+  }
+  .flores-inline svg {
+    animation: flotar 3s ease-in-out infinite alternate;
+    filter: drop-shadow(0 4px 8px rgba(192,132,252,0.4));
+  }
+  .flores-inline svg:nth-child(2) { animation-delay: 0.5s; }
+  .flores-inline svg:nth-child(3) { animation-delay: 1s; }
+  .flores-inline svg:nth-child(4) { animation-delay: 1.5s; }
+  .flores-inline svg:nth-child(5) { animation-delay: 2s; }
+  @keyframes flotar {
+    from { transform: translateY(0) rotate(-3deg); }
+    to   { transform: translateY(-8px) rotate(3deg); }
+  }
+
+  /* ── Firma ── */
+  .firma {
+    text-align: right;
+    margin-top: 36px;
+    position: relative;
+    z-index: 2;
+  }
+  .firma-texto {
+    font-family: 'Pinyon Script', cursive;
+    font-size: 2.2rem;
+    color: var(--gold);
+    text-shadow: 0 0 20px rgba(240,208,128,0.5);
+    display: block;
+    line-height: 1.2;
+  }
+  .firma-sub {
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--lavender);
+    letter-spacing: 2px;
+    opacity: 0.8;
+  }
+
+  /* ── Separador ornamental ── */
+  .separador {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 28px 0;
+    position: relative;
+    z-index: 2;
+  }
+  .sep-linea {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(192,132,252,0.4), transparent);
+  }
+  .sep-icon { font-size: 1rem; opacity: 0.8; }
+
+  /* ── Esquinas decorativas ── */
+  .esquina {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    opacity: 0.35;
+    z-index: 2;
+  }
+  .esquina-tl { top: 16px; left: 16px; }
+  .esquina-tr { top: 16px; right: 16px; transform: scaleX(-1); }
+  .esquina-bl { bottom: 16px; left: 16px; transform: scaleY(-1); }
+  .esquina-br { bottom: 16px; right: 16px; transform: scale(-1,-1); }
+
+  /* ── Responsive ── */
+  @media (max-width: 520px) {
+    .carta { padding: 40px 28px 48px; }
+    .titulo { font-size: 2.4rem; }
+    .cuerpo { font-size: 1rem; }
+  }
+
+  /* ════════════════════════════════
+     PANTALLA DE BIENVENIDA – CORAZÓN
+     ════════════════════════════════ */
+  #bienvenida {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(ellipse at center, #2a0a50 0%, #0d0520 100%);
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+  }
+  #bienvenida.cerrar {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  /* SVG corazón clip */
+  .heart-clip-wrap {
+    position: relative;
+    width: min(90vw, 480px);
+    aspect-ratio: 1 / 0.92;
+  }
+  .heart-svg-bg {
+    position: absolute;
+    inset: 0;
+    filter: drop-shadow(0 0 40px rgba(192,132,252,0.6)) drop-shadow(0 0 80px rgba(192,132,252,0.3));
+    animation: heartPulse 2s ease-in-out infinite;
+  }
+  @keyframes heartPulse {
+    0%,100% { filter: drop-shadow(0 0 30px rgba(192,132,252,0.5)) drop-shadow(0 0 60px rgba(192,132,252,0.2)); transform: scale(1); }
+    50%      { filter: drop-shadow(0 0 60px rgba(240,208,128,0.6)) drop-shadow(0 0 100px rgba(192,132,252,0.4)); transform: scale(1.04); }
+  }
+
+  .heart-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12% 14% 18%;
+    text-align: center;
+    gap: 10px;
+  }
+  .bv-mini-flores {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+  .bv-mini-flores span { font-size: 1.3rem; animation: latido 1.8s ease-in-out infinite alternate; }
+  .bv-mini-flores span:nth-child(2) { animation-delay: 0.3s; }
+  .bv-mini-flores span:nth-child(3) { animation-delay: 0.6s; }
+
+  .bv-titulo {
+    font-family: 'Pinyon Script', cursive;
+    font-size: clamp(1.8rem, 6vw, 2.8rem);
+    color: var(--gold);
+    line-height: 1.15;
+    text-shadow: 0 0 20px rgba(240,208,128,0.6);
+  }
+  .bv-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(0.78rem, 2.5vw, 0.95rem);
+    color: var(--lavender);
+    letter-spacing: 2px;
+    opacity: 0.9;
+    line-height: 1.5;
+  }
+  .bv-btn {
+    margin-top: 14px;
+    background: linear-gradient(135deg, rgba(192,132,252,0.25), rgba(240,208,128,0.2));
+    border: 1px solid rgba(240,208,128,0.5);
+    color: var(--gold);
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(0.85rem, 2.5vw, 1rem);
+    letter-spacing: 2px;
+    padding: 10px 28px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(8px);
+  }
+  .bv-btn:hover {
+    background: linear-gradient(135deg, rgba(192,132,252,0.4), rgba(240,208,128,0.3));
+    box-shadow: 0 0 20px rgba(240,208,128,0.3);
+    transform: scale(1.04);
+  }
+
+  /* partículas bienvenida */
+  #bv-particulas {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .bv-par {
+    position: absolute;
+    border-radius: 50%;
+    animation: bvFloat var(--bvd) ease-in-out infinite alternate;
+  }
+  @keyframes bvFloat {
+    from { transform: translateY(0) scale(1); opacity: var(--bvop); }
+    to   { transform: translateY(-30px) scale(1.3); opacity: calc(var(--bvop) * 0.4); }
+  }
+
+  /* ════════════════════════════════
+     CUADRO DE FOTO + DEDICATORIA
+     ════════════════════════════════ */
+  .foto-seccion {
+    position: relative;
+    z-index: 2;
+    margin-top: 48px;
+  }
+  .foto-separador {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .foto-separador .sep-linea {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(240,208,128,0.5), transparent);
+  }
+  .foto-separador-texto {
+    font-family: 'Pinyon Script', cursive;
+    font-size: 1.5rem;
+    color: var(--gold);
+    white-space: nowrap;
+    opacity: 0.9;
+  }
+
+  .foto-frame {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(240,208,128,0.25);
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    box-shadow:
+      0 0 30px rgba(192,132,252,0.1),
+      0 8px 32px rgba(0,0,0,0.4),
+      inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+  /* brillo esquina foto */
+  .foto-frame::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 10% 10%, rgba(240,208,128,0.06) 0%, transparent 55%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .foto-contenedor {
+    width: 100%;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(135deg, rgba(61,26,110,0.6) 0%, rgba(13,5,32,0.8) 100%);
+  }
+  .foto-contenedor img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s ease;
+  }
+  .foto-contenedor:hover img { transform: scale(1.03); }
+
+  /* placeholder cuando no hay foto */
+  .foto-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: rgba(192,132,252,0.5);
+  }
+  .foto-placeholder svg { opacity: 0.4; }
+  .foto-placeholder span {
+    font-style: italic;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    opacity: 0.6;
+  }
+
+  .dedicatoria-area {
+    padding: 28px 32px 32px;
+    border-top: 1px solid rgba(192,132,252,0.15);
+  }
+  .dedicatoria-icono {
+    text-align: center;
+    font-size: 1.4rem;
+    margin-bottom: 14px;
+    animation: latido 2s ease-in-out infinite;
+  }
+  .dedicatoria-texto {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: rgba(255,255,255,0.88);
+    text-align: center;
+    /* ── ESCRIBE TU DEDICATORIA AQUÍ ── */
+  }
+  .dedicatoria-firma {
+    text-align: right;
+    margin-top: 16px;
+    font-family: 'Pinyon Script', cursive;
+    font-size: 1.6rem;
+    color: var(--gold);
+    opacity: 0.85;
+  }
+
+  /* esquinas doradas foto-frame */
+  .fc-esquina {
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .fc-esquina-tl { top: 8px; left: 8px; }
+  .fc-esquina-tr { top: 8px; right: 8px; transform: scaleX(-1); }
+  .fc-esquina-bl { bottom: 8px; left: 8px; transform: scaleY(-1); }
+  .fc-esquina-br { bottom: 8px; right: 8px; transform: scale(-1,-1); }
+
+  /* música */
+  #audio-hint {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 200;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(240,208,128,0.3);
+    border-radius: 50px;
+    padding: 8px 18px 8px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--lavender);
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+    transition: all 0.3s;
+    opacity: 0;
+    animation: fadeHint 1s 1s forwards;
+  }
+  @keyframes fadeHint {
+    to { opacity: 1; }
+  }
+  #audio-hint:hover { background: rgba(255,255,255,0.12); }
+  #audio-hint .nota { font-size: 1.1rem; animation: latido 1.5s infinite; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════
+     PANTALLA DE BIENVENIDA – CORAZÓN
+     ══════════════════════════════════ -->
+<div id="bienvenida">
+  <div id="bv-particulas"></div>
+
+  <div class="heart-clip-wrap">
+    <!-- Forma corazón SVG rellena -->
+    <svg class="heart-svg-bg" viewBox="0 0 480 442" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="hg" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%"   stop-color="#4a1070"/>
+          <stop offset="50%"  stop-color="#2d0a55"/>
+          <stop offset="100%" stop-color="#1a0a2e"/>
+        </linearGradient>
+        <linearGradient id="hborder" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%"   stop-color="#f0d080"/>
+          <stop offset="50%"  stop-color="#c084fc"/>
+          <stop offset="100%" stop-color="#f0d080"/>
+        </linearGradient>
+      </defs>
+      <!-- Relleno -->
+      <path d="M240 400 C240 400 20 260 20 130 C20 60 75 20 140 20 C180 20 215 42 240 70 C265 42 300 20 340 20 C405 20 460 60 460 130 C460 260 240 400 240 400Z"
+            fill="url(#hg)" stroke="url(#hborder)" stroke-width="3"/>
+      <!-- Brillo interno -->
+      <path d="M240 370 C240 370 48 242 48 130 C48 74 95 44 140 44 C178 44 211 63 240 90 C269 63 302 44 340 44 C385 44 432 74 432 130 C432 242 240 370 240 370Z"
+            fill="rgba(255,255,255,0.03)"/>
+      <!-- Destello esquina -->
+      <ellipse cx="155" cy="90" rx="35" ry="20" fill="rgba(255,255,255,0.06)" transform="rotate(-30,155,90)"/>
+    </svg>
+
+    <!-- Contenido dentro del corazón -->
+    <div class="heart-content">
+      <div class="bv-mini-flores">
+        <span>🌸</span><span>💜</span><span>🌸</span>
+      </div>
+      <div class="bv-titulo">Para ti,<br>mi princesita</div>
+      <div class="bv-sub">Una carta escrita con todo<br>el amor que te tengo, Angy</div>
+      <button class="bv-btn" onclick="abrirCarta()">Abrir carta 💜</button>
+    </div>
+  </div>
+</div>
+
+<!-- Audio (reemplaza src con tu canción en el repo) -->
+<audio id="musica" loop>
+  <!-- ── CAMBIA ESTE SRC POR LA RUTA DE TU CANCIÓN EN EL REPO ── -->
+  <source src="cancion.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Indicador de música -->
+<div id="audio-hint" onclick="toggleMusica()">
+  <span class="nota">🎵</span>
+  <span id="audio-label">música sonando</span>
+</div>
+
+
+<div class="stars" id="stars"></div>
+
+<!-- Pétalos -->
+<div class="petals-container" id="petals"></div>
+
+<!-- Carta -->
+<div class="scene">
+  <div class="carta">
+
+    <!-- Esquinas ornamentales SVG -->
+    <svg class="esquina esquina-tl" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 48 Q2 2 48 2" stroke="#f0d080" stroke-width="1.5" fill="none"/>
+      <circle cx="2" cy="48" r="2" fill="#f0d080"/>
+      <circle cx="48" cy="2" r="2" fill="#f0d080"/>
+      <path d="M10 40 Q10 10 40 10" stroke="#c084fc" stroke-width="0.8" fill="none" stroke-dasharray="3 4"/>
+    </svg>
+    <svg class="esquina esquina-tr" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 48 Q2 2 48 2" stroke="#f0d080" stroke-width="1.5" fill="none"/>
+      <circle cx="2" cy="48" r="2" fill="#f0d080"/>
+      <circle cx="48" cy="2" r="2" fill="#f0d080"/>
+      <path d="M10 40 Q10 10 40 10" stroke="#c084fc" stroke-width="0.8" fill="none" stroke-dasharray="3 4"/>
+    </svg>
+    <svg class="esquina esquina-bl" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 48 Q2 2 48 2" stroke="#f0d080" stroke-width="1.5" fill="none"/>
+      <circle cx="2" cy="48" r="2" fill="#f0d080"/>
+      <circle cx="48" cy="2" r="2" fill="#f0d080"/>
+      <path d="M10 40 Q10 10 40 10" stroke="#c084fc" stroke-width="0.8" fill="none" stroke-dasharray="3 4"/>
+    </svg>
+    <svg class="esquina esquina-br" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 48 Q2 2 48 2" stroke="#f0d080" stroke-width="1.5" fill="none"/>
+      <circle cx="2" cy="48" r="2" fill="#f0d080"/>
+      <circle cx="48" cy="2" r="2" fill="#f0d080"/>
+      <path d="M10 40 Q10 10 40 10" stroke="#c084fc" stroke-width="0.8" fill="none" stroke-dasharray="3 4"/>
+    </svg>
+
+    <!-- Encabezado -->
+    <div class="header">
+      <div class="decoracion-top">
+        <div class="linea-gold"></div>
+        <span class="corazon-central">🌸</span>
+        <div class="linea-gold"></div>
+      </div>
+      <div class="titulo">Para mi Angy</div>
+      <div class="subtitulo">mi princesita linda &nbsp;·&nbsp; mi futuro más deseado</div>
+    </div>
+
+    <!-- Flores animadas inline -->
+    <div class="flores-inline">
+      <!-- Flor 1 rosa -->
+      <svg width="44" height="44" viewBox="0 0 44 44">
+        <g transform="translate(22,22)">
+          <ellipse rx="7" ry="12" fill="#f9a8d4" transform="rotate(0)"  opacity=".9"/>
+          <ellipse rx="7" ry="12" fill="#fbbde8" transform="rotate(60)" opacity=".9"/>
+          <ellipse rx="7" ry="12" fill="#f9a8d4" transform="rotate(120)" opacity=".9"/>
+          <ellipse rx="7" ry="12" fill="#fbbde8" transform="rotate(180)" opacity=".9"/>
+          <ellipse rx="7" ry="12" fill="#f9a8d4" transform="rotate(240)" opacity=".9"/>
+          <ellipse rx="7" ry="12" fill="#fbbde8" transform="rotate(300)" opacity=".9"/>
+          <circle r="5" fill="#fde68a"/>
+        </g>
+      </svg>
+      <!-- Flor 2 morada -->
+      <svg width="40" height="40" viewBox="0 0 40 40">
+        <g transform="translate(20,20)">
+          <ellipse rx="6" ry="10" fill="#c084fc" transform="rotate(0)"  opacity=".9"/>
+          <ellipse rx="6" ry="10" fill="#a855f7" transform="rotate(72)" opacity=".9"/>
+          <ellipse rx="6" ry="10" fill="#c084fc" transform="rotate(144)" opacity=".9"/>
+          <ellipse rx="6" ry="10" fill="#a855f7" transform="rotate(216)" opacity=".9"/>
+          <ellipse rx="6" ry="10" fill="#c084fc" transform="rotate(288)" opacity=".9"/>
+          <circle r="4" fill="#fde68a"/>
+        </g>
+      </svg>
+      <!-- Flor 3 blanca/lila -->
+      <svg width="48" height="48" viewBox="0 0 48 48">
+        <g transform="translate(24,24)">
+          <ellipse rx="8" ry="13" fill="#e0c8ff" transform="rotate(0)"  opacity=".85"/>
+          <ellipse rx="8" ry="13" fill="#d8b4fe" transform="rotate(60)" opacity=".85"/>
+          <ellipse rx="8" ry="13" fill="#e0c8ff" transform="rotate(120)" opacity=".85"/>
+          <ellipse rx="8" ry="13" fill="#d8b4fe" transform="rotate(180)" opacity=".85"/>
+          <ellipse rx="8" ry="13" fill="#e0c8ff" transform="rotate(240)" opacity=".85"/>
+          <ellipse rx="8" ry="13" fill="#d8b4fe" transform="rotate(300)" opacity=".85"/>
+          <circle r="5" fill="#f0d080"/>
+        </g>
+      </svg>
+      <!-- Flor 4 fucsia -->
+      <svg width="40" height="40" viewBox="0 0 40 40">
+        <g transform="translate(20,20)">
+          <ellipse rx="6" ry="10" fill="#e879f9" transform="rotate(0)"  opacity=".9"/>
+          <ellipse rx="6" ry="10" fill="#d946ef" transform="rotate(72)" opacity=".9"/>
+          <ellipse rx="6" ry="10" fill="#e879f9" transform="rotate(144)" opacity=".9"/>
+          <ellipse rx="6" ry="10" fill="#d946ef" transform="rotate(216)" opacity=".9"/>
+          <ellipse rx="6" ry="10" fill="#e879f9" transform="rotate(288)" opacity=".9"/>
+          <circle r="4" fill="#fde68a"/>
+        </g>
+      </svg>
+      <!-- Flor 5 rosa -->
+      <svg width="44" height="44" viewBox="0 0 44 44">
+        <g transform="translate(22,22)">
+          <ellipse rx="7" ry="12" fill="#fbcfe8" transform="rotate(0)"  opacity=".9"/>
+          <ellipse rx="7" ry="12" fill="#f9a8d4" transform="rotate(60)" opacity=".9"/>
+          <ellipse rx="7" ry="12" fill="#fbcfe8" transform="rotate(120)" opacity=".9"/>
+          <ellipse rx="7" ry="12" fill="#f9a8d4" transform="rotate(180)" opacity=".9"/>
+          <ellipse rx="7" ry="12" fill="#fbcfe8" transform="rotate(240)" opacity=".9"/>
+          <ellipse rx="7" ry="12" fill="#f9a8d4" transform="rotate(300)" opacity=".9"/>
+          <circle r="5" fill="#fde68a"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Cuerpo -->
+    <div class="cuerpo">
+      <span class="saludo">Mi Angy hermosa,</span>
+
+      <p class="parrafo">
+        Hay cosas en la vida que no necesitan explicación, que simplemente se sienten, 
+        que llegan sin avisar y se quedan para siempre… y tú eres exactamente eso. 
+        Llegaste a mi vida de una manera tan suave, tan natural, que antes de darme cuenta 
+        ya eras la parte más bonita de mis días.
+      </p>
+
+      <p class="parrafo">
+        Quiero que sepas que <em>te agradezco con todo mi corazón</em> por cada abrazo que 
+        me das cuando más lo necesito, por cada mirada tuya que me hace sentir que soy 
+        suficiente, que soy especial, que soy amado. Tus ojos, princesita, tienen algo 
+        mágico: cuando me ves <strong>me hacen sentir el hombre más afortunado del universo.</strong>
+      </p>
+
+      <div class="separador">
+        <div class="sep-linea"></div>
+        <span class="sep-icon">🌷</span>
+        <div class="sep-linea"></div>
+      </div>
+
+      <p class="parrafo">
+        Gracias por darme tu cariño sin condiciones, por ser tan tierna, por reírte 
+        conmigo de las cosas tontas, por quedarte. Cada pequeño gesto tuyo —una sonrisa, 
+        un mensaje, tu voz— es un regalo que guardo en el lugar más bonito de mi corazón.
+      </p>
+
+      <p class="parrafo">
+        Cuando pienso en el futuro, te veo a ti. <em>Eres mi futuro más deseado.</em> 
+        El que construyo con ganas, el que me emociona imaginar, el que sé que va a ser 
+        increíble simplemente porque estarás tú. Contigo cada sueño tiene más color, 
+        cada meta tiene más sentido, cada día tiene más sabor.
+      </p>
+
+      <div class="separador">
+        <div class="sep-linea"></div>
+        <span class="sep-icon">💜</span>
+        <div class="sep-linea"></div>
+      </div>
+
+      <p class="parrafo">
+        No sé cómo hice para merecer a alguien tan linda, tan auténtica y tan especial 
+        como tú. Pero sí sé una cosa: <strong>voy a cuidarte, voy a quererte,</strong> 
+        y voy a esforzarme todos los días para que nunca te arrepientas de haberme 
+        elegido a mí.
+      </p>
+
+      <p class="parrafo">
+        Eres mi princesita linda, mi calma, mi alegría, mi hogar. 
+        <em>Te quiero mucho, Angy. Más de lo que estas palabras pueden decir.</em>
+      </p>
+    </div>
+
+    <!-- Firma -->
+    <div class="firma">
+      <span class="firma-texto">Con todo mi amor,<br>tu Fer 💜</span>
+      <div class="firma-sub" style="margin-top:6px;">siempre y para siempre</div>
+    </div>
+
+    <!-- ══════════════════════════════
+         CUADRO DE FOTO + DEDICATORIA
+         ══════════════════════════════ -->
+    <div class="foto-seccion">
+      <div class="foto-separador">
+        <div class="sep-linea"></div>
+        <span class="foto-separador-texto">nuestra foto</span>
+        <div class="sep-linea"></div>
+      </div>
+
+      <div class="foto-frame">
+        <!-- Esquinas doradas del marco -->
+        <svg class="fc-esquina fc-esquina-tl" viewBox="0 0 36 36" fill="none">
+          <path d="M2 34 Q2 2 34 2" stroke="#f0d080" stroke-width="1.5" fill="none"/>
+          <circle cx="2" cy="34" r="1.8" fill="#f0d080"/>
+          <circle cx="34" cy="2" r="1.8" fill="#f0d080"/>
+        </svg>
+        <svg class="fc-esquina fc-esquina-tr" viewBox="0 0 36 36" fill="none">
+          <path d="M2 34 Q2 2 34 2" stroke="#f0d080" stroke-width="1.5" fill="none"/>
+          <circle cx="2" cy="34" r="1.8" fill="#f0d080"/>
+          <circle cx="34" cy="2" r="1.8" fill="#f0d080"/>
+        </svg>
+        <svg class="fc-esquina fc-esquina-bl" viewBox="0 0 36 36" fill="none">
+          <path d="M2 34 Q2 2 34 2" stroke="#f0d080" stroke-width="1.5" fill="none"/>
+          <circle cx="2" cy="34" r="1.8" fill="#f0d080"/>
+          <circle cx="34" cy="2" r="1.8" fill="#f0d080"/>
+        </svg>
+        <svg class="fc-esquina fc-esquina-br" viewBox="0 0 36 36" fill="none">
+          <path d="M2 34 Q2 2 34 2" stroke="#f0d080" stroke-width="1.5" fill="none"/>
+          <circle cx="2" cy="34" r="1.8" fill="#f0d080"/>
+          <circle cx="34" cy="2" r="1.8" fill="#f0d080"/>
+        </svg>
+
+        <!-- Contenedor de la imagen -->
+        <div class="foto-contenedor">
+          <!-- ── CAMBIA src POR LA RUTA DE TU FOTO EN EL REPO ──
+               Ejemplo: src="foto.jpg" o src="imagenes/nosotros.jpg"
+          -->
+          <img id="la-foto" src="foto.jpg" alt="Nosotros"
+               onerror="this.style.display='none'; document.getElementById('foto-ph').style.display='flex'"/>
+          <div class="foto-placeholder" id="foto-ph" style="display:none;">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+              <rect x="4" y="10" width="40" height="30" rx="3" stroke="#c084fc" stroke-width="1.5"/>
+              <circle cx="17" cy="22" r="5" stroke="#c084fc" stroke-width="1.5"/>
+              <path d="M4 34 L14 24 L22 31 L30 22 L44 34" stroke="#c084fc" stroke-width="1.5" fill="none"/>
+            </svg>
+            <span>aquí va nuestra foto 🌸</span>
+          </div>
+        </div>
+
+        <!-- Dedicatoria -->
+        <div class="dedicatoria-area">
+          <div class="dedicatoria-icono">💜</div>
+          <div class="dedicatoria-texto">
+            <!-- ══════════════════════════════════════════
+                 ESCRIBE TU DEDICATORIA AQUÍ
+                 Solo edita el texto entre estas etiquetas
+                 ══════════════════════════════════════════ -->
+            Escribe aquí tu dedicatoria para Angy… este espacio es tuyo, llénalo de todo el amor que sientes por ella.
+          </div>
+          <div class="dedicatoria-firma">— tu Fer 💜</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // ── Generar estrellas ──
+  const starsContainer = document.getElementById('stars');
+  for (let i = 0; i < 140; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 2.2 + 0.5;
+    const min  = (Math.random() * 0.2 + 0.05).toFixed(2);
+    const max  = (Math.random() * 0.6 + 0.3).toFixed(2);
+    const d    = (Math.random() * 4 + 2).toFixed(1) + 's';
+    Object.assign(s.style, {
+      width:  size + 'px',
+      height: size + 'px',
+      top:    Math.random() * 100 + '%',
+      left:   Math.random() * 100 + '%',
+      '--min': min,
+      '--max': max,
+      '--d':   d,
+      animationDelay: (Math.random() * 5).toFixed(1) + 's'
+    });
+    starsContainer.appendChild(s);
+  }
+
+  // ── Generar pétalos caídos ──
+  const petalsContainer = document.getElementById('petals');
+  const colors = ['#f9a8d4','#e879f9','#c084fc','#fde68a','#fbcfe8','#d8b4fe','#a78bfa'];
+  for (let i = 0; i < 28; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    const w = Math.random() * 14 + 8;
+    const h = Math.random() * 18 + 10;
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    const delay = (Math.random() * 14).toFixed(1);
+    const dur   = (Math.random() * 8 + 8).toFixed(1);
+    const drift = (Math.random() * 120 - 60).toFixed(0) + 'px';
+    const spin  = (Math.random() * 360).toFixed(0) + 'deg';
+    Object.assign(p.style, {
+      left:        Math.random() * 100 + '%',
+      width:       w + 'px',
+      height:      h + 'px',
+      background:  color,
+      '--fall-d':  dur + 's',
+      '--drift':   drift,
+      '--spin':    spin,
+      animationDelay: delay + 's'
+    });
+    petalsContainer.appendChild(p);
+  }
+
+  // ── Cerrar bienvenida y reproducir música ──
+  function abrirCarta() {
+    const bv = document.getElementById('bienvenida');
+    bv.classList.add('cerrar');
+    const musica = document.getElementById('musica');
+    musica.play().catch(() => {});
+  }
+
+  // ── Toggle música ──
+  let musicaActiva = true;
+  function toggleMusica() {
+    const musica = document.getElementById('musica');
+    const label  = document.getElementById('audio-label');
+    if (musicaActiva) {
+      musica.pause();
+      label.textContent = 'música en pausa';
+    } else {
+      musica.play().catch(() => {});
+      label.textContent = 'música sonando';
+    }
+    musicaActiva = !musicaActiva;
+  }
+</script>
+</body>
+</html>
